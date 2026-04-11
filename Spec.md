@@ -1,6 +1,6 @@
 # 🏰 Spécifications Techniques & Fonctionnelles : La Grande Vesvre
 
-Ce document définit les exigences pour la création du site vitrine de la maison d'hôtes **La Grande Vesvre**. Le projet doit refléter l'aspect historique (ancienne ferme templière) tout en utilisant une interface moderne, fluide et performante.
+Ce document définit les exigences pour la création du site vitrine des chambres d'hôtes **La Grande Vesvre**. Le projet doit refléter l'aspect historique (ancienne ferme templière) tout en utilisant une interface moderne, prestigieux, charmant, professionnel, fluide, responsive(adaptable) et performante.
 
 ---
 
@@ -13,6 +13,45 @@ Ce document définit les exigences pour la création du site vitrine de la maiso
 * **Mails :** Intégration API (Resend ou EmailJS) pour le formulaire de contact.
 * **Cartographie :** Leaflet (Composants React pour cartes OpenStreetMap).
 * **Multilingue :** `next-intl` (Français 🇫🇷, Anglais 🇬🇧, Allemand 🇩🇪).
+
+Petit recap:
+
+## R. Architecture & Stack Technique (2026)
+
+Le projet "La Grande Vesvre" repose sur une architecture **Headless**, séparant totalement la gestion des données (Back-end) de l'interface utilisateur (Front-end).
+
+### 1. Synthèse des Technologies
+
+| Composant | Technologie | Usage |
+| :--- | :--- | :--- |
+| **Langage** | **TypeScript** | Typage statique pour un code robuste et sans erreurs. |
+| **Framework Front** | **Next.js (App Router)** | Rendu hybride (SSG/SSR) pour une vitesse de chargement éclair. |
+| **Styling** | **Tailwind CSS** | Design utilitaire, responsive et haute performance. |
+| **CMS Headless** | **Sanity.io** | Administration sur mesure pour les propriétaires. |
+| **Hébergement** | **Vercel** | Déploiement continu lié au dépôt GitHub. |
+| **Gestion de Version**| **GitHub** | Sauvegarde du code et gestion des branches. |
+
+### 2. Écosystème de Services
+
+* **Gestion des Médias :** Sanity Asset Pipeline (Optimisation automatique des images en WebP/AVIF).
+* **Icônes :** **Lucide-React** (Bibliothèque d'icônes vectorielles légères).
+* **Cartographie :** **Leaflet** (Alternative open-source légère à Google Maps).
+* **Communication :** **EmailJS** ou **Resend** pour le routage des formulaires de contact.
+* **Sécurité :** **Cloudflare Turnstile** (Protection anti-spam invisible).
+
+### 3. Workflow de Déploiement
+
+1.  **Développement :** Création de fonctionnalités sur des branches `feat/`.
+2.  **Commit :** Suivi de la norme *Conventional Commits* (`feat:`, `fix:`, `docs:`).
+3.  **Validation :** Pull Request sur GitHub.
+4.  **Déploiement :** Fusion sur la branche `main` déclenchant un build automatique sur **Vercel**.
+5.  **Direct-Update :** Toute modification de texte/photo dans **Sanity** est répercutée sur le site en temps réel via les *Webhooks* de Vercel (Revalidation on-demand).
+
+### 4. Philosophie du Code
+
+* **Mobile-First :** Le design est pensé d'abord pour les smartphones (clientèle touristique en déplacement).
+* **Accessibilité (A11y) :** Respect des contrastes et sémantique HTML5 pour les lecteurs d'écran.
+* **SEO Natif :** Génération automatique de métadonnées, sitemap.xml et balises OpenGraph pour le partage social.
 
 ---
 
@@ -390,6 +429,7 @@ Le projet "La Grande Vesvre" repose sur une architecture **Headless**, séparant
 * **Mobile-First :** Le design est pensé d'abord pour les smartphones (clientèle touristique en déplacement).
 * **Accessibilité (A11y) :** Respect des contrastes et sémantique HTML5 pour les lecteurs d'écran.
 * **SEO Natif :** Génération automatique de métadonnées, sitemap.xml et balises OpenGraph pour le partage social.
+
 ---
 
 ## Z. Protocole de Développement & Git Workflow (Standard Pro)
