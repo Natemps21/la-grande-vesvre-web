@@ -1,6 +1,6 @@
 # 🏰 Spécifications Techniques & Fonctionnelles : La Grande Vesvre
 
-Ce document définit les exigences pour la création du site vitrine de la maison d'hôtes **La Grande Vesvre**. Le projet doit refléter l'aspect historique (ancienne ferme templière) tout en utilisant une interface moderne, fluide et performante.
+Ce document définit les exigences pour la création du site vitrine des chambres d'hôtes **La Grande Vesvre**. Le projet doit refléter l'aspect historique (ancienne ferme templière) tout en utilisant une interface moderne, prestigieux, charmant, professionnel, fluide, responsive(adaptable) et performante.
 
 ---
 
@@ -13,6 +13,45 @@ Ce document définit les exigences pour la création du site vitrine de la maiso
 * **Mails :** Intégration API (Resend ou EmailJS) pour le formulaire de contact.
 * **Cartographie :** Leaflet (Composants React pour cartes OpenStreetMap).
 * **Multilingue :** `next-intl` (Français 🇫🇷, Anglais 🇬🇧, Allemand 🇩🇪).
+
+Petit recap:
+
+## R. Architecture & Stack Technique (2026)
+
+Le projet "La Grande Vesvre" repose sur une architecture **Headless**, séparant totalement la gestion des données (Back-end) de l'interface utilisateur (Front-end).
+
+### 1. Synthèse des Technologies
+
+| Composant | Technologie | Usage |
+| :--- | :--- | :--- |
+| **Langage** | **TypeScript** | Typage statique pour un code robuste et sans erreurs. |
+| **Framework Front** | **Next.js (App Router)** | Rendu hybride (SSG/SSR) pour une vitesse de chargement éclair. |
+| **Styling** | **Tailwind CSS** | Design utilitaire, responsive et haute performance. |
+| **CMS Headless** | **Sanity.io** | Administration sur mesure pour les propriétaires. |
+| **Hébergement** | **Vercel** | Déploiement continu lié au dépôt GitHub. |
+| **Gestion de Version**| **GitHub** | Sauvegarde du code et gestion des branches. |
+
+### 2. Écosystème de Services
+
+* **Gestion des Médias :** Sanity Asset Pipeline (Optimisation automatique des images en WebP/AVIF).
+* **Icônes :** **Lucide-React** (Bibliothèque d'icônes vectorielles légères).
+* **Cartographie :** **Leaflet** (Alternative open-source légère à Google Maps).
+* **Communication :** **EmailJS** ou **Resend** pour le routage des formulaires de contact.
+* **Sécurité :** **Cloudflare Turnstile** (Protection anti-spam invisible).
+
+### 3. Workflow de Déploiement
+
+1.  **Développement :** Création de fonctionnalités sur des branches `feat/`.
+2.  **Commit :** Suivi de la norme *Conventional Commits* (`feat:`, `fix:`, `docs:`).
+3.  **Validation :** Pull Request sur GitHub.
+4.  **Déploiement :** Fusion sur la branche `main` déclenchant un build automatique sur **Vercel**.
+5.  **Direct-Update :** Toute modification de texte/photo dans **Sanity** est répercutée sur le site en temps réel via les *Webhooks* de Vercel (Revalidation on-demand).
+
+### 4. Philosophie du Code
+
+* **Mobile-First :** Le design est pensé d'abord pour les smartphones (clientèle touristique en déplacement).
+* **Accessibilité (A11y) :** Respect des contrastes et sémantique HTML5 pour les lecteurs d'écran.
+* **SEO Natif :** Génération automatique de métadonnées, sitemap.xml et balises OpenGraph pour le partage social.
 
 ---
 
@@ -352,3 +391,36 @@ La **Page d'Accueil** fait office de vitrine dynamique (Landing Page). Elle ne s
 * La **Timeline "Live"** d'ouverture.
 * Les **Points Forts** (Wi-Fi, Parking, etc.).
 * Un extrait de la **Page Histoire** incitant à en lire plus.
+
+---
+
+## Z. Protocole de Développement & Git Workflow (Standard Pro)
+
+Afin de garantir la stabilité du projet et la sécurité des données, tout contributeur doit respecter ce flux de travail.
+
+### 1. Structure des Branches
+* **`main` :** Branche sacrée. Ne jamais coder directement dessus. Elle contient uniquement le code prêt pour la production (Vercel).
+* **`feat/` :** Pour toute nouvelle fonctionnalité (ex: `feat/header`, `feat/sanity-review`).
+* **`fix/` :** Pour les corrections de bugs.
+* **`docs/` :** Pour les mises à jour de la documentation ou de la spec.
+
+### 2. Routine de Travail (Terminal)
+Avant chaque session de travail :
+1. S'assurer d'être sur la base propre : `git checkout main` puis `git pull origin main`.
+2. Créer une branche dédiée : `git checkout -b feat/nom-de-la-tache`.
+
+Pendant le travail :
+1. Vérifier l'état : `git status`.
+2. Indexer : `git add .` (uniquement si le `.gitignore` est bien configuré).
+3. Sauvegarder localement : `git commit -m "type: description claire"`.
+   * *Ex: `feat: add star rating system to attractions`*
+
+### 3. Livraison & Sécurité
+* **Push :** Envoyer la branche sur GitHub : `git push origin feat/nom-de-la-tache`.
+* **Pull Request (PR) :** La fusion vers `main` doit se faire via l'interface GitHub.
+* **Zéro Secret :** Il est formellement interdit de committer des fichiers `.env`. Toute clé API doit être déclarée dans le tableau de bord Vercel uniquement.
+
+### 4. Warning "Anti-perte"
+Si vous devez changer de branche mais que votre travail actuel n'est pas fini :
+* **Option A (Recommandée) :** Faire un commit temporaire `git commit -m "work in progress"`.
+* **Option B (Avancée) :** Utiliser `git stash` pour mettre les modifs "au garage" et les ressortir plus tard avec `git stash pop`.
