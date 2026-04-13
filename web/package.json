@@ -1,13 +1,9 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-    "lucide-react": "^1.8.0"
-=======
   "name": "web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -15,10 +11,23 @@
   "dependencies": {
     "next": "16.2.3",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "@portabletext/react": "^3.0.0",
+    "@sanity/client": "^6.0.0",
+    "@sanity/image-url": "^1.0.0",
+    "framer-motion": "^11.0.0",
+    "leaflet": "^1.9.4",
+    "lenis": "^1.1.2",
+    "lucide-react": "^0.400.0",
+    "next-intl": "^3.20.0",
+    "next-sanity": "^9.0.0",
+    "react-leaflet": "^4.2.1",
+    "resend": "^3.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.10",
+    "@types/leaflet": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -26,6 +35,5 @@
     "eslint-config-next": "16.2.3",
     "tailwindcss": "^4",
     "typescript": "^5"
->>>>>>> bfbb1b868e2b52fab6305983b6b29fd01aa4000f
   }
 }

@@ -1,26 +1,182 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ─────────────────────────────────────────────
+   FONTS — référence aux CSS vars injectées par next/font
+   ───────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-cinzel);
+  --font-heading: var(--font-cormorant);
+  --font-body:    var(--font-raleway);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─────────────────────────────────────────────
+   PALETTE — La Grande Vesvre
+   ───────────────────────────────────────────── */
+@theme {
+  /* Parchemin (fonds) */
+  --color-parchment:      #FAF8F4;
+  --color-parchment-mid:  #F2EDE3;
+  --color-parchment-dark: #E8DFD0;
+
+  /* Forêt (primary) */
+  --color-forest:       #2A4232;
+  --color-forest-light: #3B6B50;
+  --color-forest-dark:  #1E3226;
+
+  /* Or médiéval (accent) */
+  --color-gold:       #9A7B2F;
+  --color-gold-light: #C4A44E;
+  --color-gold-dark:  #6B5218;
+
+  /* Pierre / neutre */
+  --color-stone:       #9E8E78;
+  --color-stone-light: #C4B8A8;
+  --color-stone-dark:  #5C4E3C;
+
+  /* Encre (textes) */
+  --color-ink:      #1C1410;
+  --color-ink-soft: #2C2416;
+
+  /* Bordeaux (accent secondaire — chambre Hirondelle) */
+  --color-bordeaux: #6B2737;
+}
+
+/* ─────────────────────────────────────────────
+   BASE STYLES
+   ───────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-parchment);
+    color: var(--color-ink);
+    font-family: var(--font-body, "Raleway", sans-serif);
+    font-size: 1rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading, "Cormorant Garamond", serif);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-ink);
+  }
+
+  ::selection {
+    background-color: var(--color-gold-light);
+    color: var(--color-ink);
+  }
+
+  ::-webkit-scrollbar        { width: 6px; }
+  ::-webkit-scrollbar-track  { background: var(--color-parchment-dark); }
+  ::-webkit-scrollbar-thumb  { background: var(--color-stone-light); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-stone); }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─────────────────────────────────────────────
+   COMPOSANTS UTILITAIRES GLOBAUX
+   ───────────────────────────────────────────── */
+@layer components {
+  .container-site {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    .container-site { padding-inline: 2rem; }
+  }
+
+  .divider-gold {
+    width: 3rem;
+    height: 1px;
+    background-color: var(--color-gold);
+    margin-block: 1.5rem;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    background-color: var(--color-forest);
+    color: var(--color-parchment);
+    font-family: var(--font-body, "Raleway", sans-serif);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--color-forest);
+    transition: background-color 200ms, border-color 200ms;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-forest-dark);
+    border-color: var(--color-forest-dark);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    background-color: transparent;
+    color: var(--color-forest);
+    font-family: var(--font-body, "Raleway", sans-serif);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--color-forest);
+    transition: background-color 200ms, color 200ms;
+  }
+  .btn-outline:hover {
+    background-color: var(--color-forest);
+    color: var(--color-parchment);
+  }
+
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    background-color: var(--color-gold);
+    color: var(--color-parchment);
+    font-family: var(--font-body, "Raleway", sans-serif);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--color-gold);
+    transition: background-color 200ms, border-color 200ms;
+  }
+  .btn-gold:hover {
+    background-color: var(--color-gold-dark);
+    border-color: var(--color-gold-dark);
+  }
+
+  .quote-manuscrite {
+    font-family: var(--font-heading, "Cormorant Garamond", serif);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--color-stone-dark);
+    border-left: 2px solid var(--color-gold);
+    padding-left: 1.5rem;
+    line-height: 1.8;
+  }
+
+  .label-section {
+    font-family: var(--font-body, "Raleway", sans-serif);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
 }
