@@ -4,52 +4,34 @@ import { CalendarDays, Wifi, ParkingCircle, Utensils, Trees } from 'lucide-react
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { sanityFetch, urlFor } from '@/lib/sanity'
-import { heroImageQuery, roomsPreviewQuery } from '@/lib/queries'
-import type { PhotoGalleryItem, Room } from '@/types/sanity'
+import { roomsPreviewQuery } from '@/lib/queries'
+import type { Room } from '@/types/sanity'
 
 const BOOKING_URL = 'https://www.booking.com/hotel/fr/la-grande-vesvre-gigny.fr.html'
 
 export default async function HomePage() {
-  /* ── Données Sanity ── */
-  const [heroImage, rooms] = await Promise.all([
-    sanityFetch<PhotoGalleryItem | null>(heroImageQuery),
-    sanityFetch<Room[]>(roomsPreviewQuery),
-  ])
+  const rooms = await sanityFetch<Room[]>(roomsPreviewQuery)
 
   return (
     <>
       <Header />
 
       {/* ══════════════════════════════════════
-          HERO — Photo drone depuis Sanity
+          HERO — Fond forêt, texte centré
           ══════════════════════════════════════ */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-32">
-
-        {/* Image de fond plein écran */}
-        {heroImage ? (
-          <Image
-            src={urlFor(heroImage.image).width(1920).height(1080).format('webp').quality(85).url()}
-            alt={heroImage.alt ?? 'La Grande Vesvre — Vue aérienne'}
-            fill
-            className="object-cover object-center"
-            priority
-            sizes="100vw"
-          />
-        ) : (
-          /* Fallback couleur si Sanity n'a pas encore d'image */
-          <div className="absolute inset-0 bg-forest" aria-hidden="true" />
-        )}
-
-        {/* Voile sombre pour la lisibilité */}
-        <div
-          className="absolute inset-0 bg-forest/60"
-          aria-hidden="true"
-        />
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-32 bg-forest overflow-hidden">
 
         {/* Texture radiale dorée subtile */}
         <div
-          className="absolute inset-0 opacity-15"
-          style={{ background: 'radial-gradient(ellipse at center, var(--color-gold) 0%, transparent 65%)' }}
+          className="absolute inset-0 opacity-10 pointer-events-none"
+          style={{ background: 'radial-gradient(ellipse at 60% 40%, var(--color-gold) 0%, transparent 65%)' }}
+          aria-hidden="true"
+        />
+
+        {/* Grain texture overlay */}
+        <div
+          className="absolute inset-0 opacity-5 pointer-events-none"
+          style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\' opacity=\'1\'/%3E%3C/svg%3E")' }}
           aria-hidden="true"
         />
 
@@ -58,31 +40,29 @@ export default async function HomePage() {
             Bourgogne · France · 89160 Gigny
           </p>
 
-          <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl text-parchment tracking-[0.12em] uppercase leading-none mb-4">
-            La Grande Vesvre
+          <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl text-parchment tracking-[0.12em] uppercase leading-none mb-5">
+            La Grande<br />Vesvre
           </h1>
 
-          <p className="font-heading italic text-2xl sm:text-3xl text-gold-light mb-6">
-            Ancienne ferme templière — Un séjour hors du temps
-          </p>
-
-          <div className="flex items-center justify-center gap-4 mb-8">
-            <div className="h-px w-12 bg-gold/50" />
-            <span className="font-heading italic text-sm text-parchment/50">fondée en 1193</span>
-            <div className="h-px w-12 bg-gold/50" />
+          <div className="flex items-center justify-center gap-4 mb-5">
+            <div className="h-px w-16 bg-gold/50" />
+            <p className="font-heading italic text-xl sm:text-2xl text-gold-light">
+              Ancienne ferme templière
+            </p>
+            <div className="h-px w-16 bg-gold/50" />
           </div>
 
-          <p className="font-body text-parchment/80 text-base sm:text-lg leading-relaxed mb-12 max-w-lg mx-auto">
+          <p className="font-body text-parchment/70 text-base sm:text-lg leading-relaxed mb-10 max-w-lg mx-auto">
             Trois chambres d&apos;hôtes dans un manoir fortifié du XVII<sup>e</sup> siècle,
-            entouré de douves, de nature et de 800 ans d&apos;histoire.
+            entouré de douves et de 800 ans d&apos;histoire en pleine Bourgogne.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/chambres" className="btn-gold text-xs py-3.5 px-8">
+            <Link href="/chambres" className="btn-gold text-xs py-3.5 px-9">
               <CalendarDays className="w-4 h-4" />
               Voir les chambres
             </Link>
-            <Link href="/histoire" className="btn-outline border-parchment/40 text-parchment hover:bg-parchment hover:text-ink text-xs py-3.5 px-8">
+            <Link href="/histoire" className="btn-outline border-parchment/30 text-parchment hover:bg-parchment hover:text-ink text-xs py-3.5 px-9">
               Notre histoire
             </Link>
           </div>
@@ -90,17 +70,19 @@ export default async function HomePage() {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-          <div className="h-8 w-px bg-parchment/25 animate-pulse" />
-          <span className="font-body text-[0.6rem] tracking-[0.3em] uppercase text-parchment/25">
+          <span className="font-body text-[0.6rem] tracking-[0.3em] uppercase text-parchment/30">
             Découvrir
           </span>
+          <div className="h-8 w-px bg-parchment/20 animate-pulse" />
         </div>
       </section>
+
+      {/* Photo drone — à intégrer ultérieurement dans une section dédiée */}
 
       {/* ══════════════════════════════════════
           CONTENU — Fond parchemin
           ══════════════════════════════════════ */}
-      <div className="relative bg-parchment shadow-[0_-12px_40px_rgba(0,0,0,0.3)]">
+      <div className="bg-parchment shadow-[0_-16px_48px_rgba(0,0,0,0.25)]">
 
         {/* ── INTRODUCTION ── */}
         <section className="container-site py-20 lg:py-28 text-center">
@@ -109,7 +91,7 @@ export default async function HomePage() {
             Un patrimoine d&apos;exception
           </h2>
           <div className="divider-gold mx-auto" />
-          <p className="font-body text-ink-soft max-w-2xl mx-auto leading-relaxed mt-4">
+          <p className="font-body text-ink-soft max-w-2xl mx-auto leading-relaxed mt-6">
             Fondée en 1193 comme commanderie templière, la Grande Vesvre est aujourd&apos;hui
             un manoir fortifié du XVII<sup>e</sup> siècle transformé en chambres d&apos;hôtes.
             Sylvie et son époux vous accueillent dans un lieu où chaque pierre raconte
@@ -142,7 +124,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* ── CHAMBRES (depuis Sanity) ── */}
+        {/* ── CHAMBRES ── */}
         <section className="container-site py-20 lg:py-28">
           <div className="text-center mb-12">
             <p className="label-section mb-3">Nos chambres</p>
@@ -158,7 +140,6 @@ export default async function HomePage() {
                 key={room._id}
                 className="flex flex-col bg-white border border-parchment-dark overflow-hidden hover:shadow-lg transition-shadow duration-300"
               >
-                {/* Photo de la chambre */}
                 <div className="relative h-52 bg-parchment-mid">
                   {room.mainImage ? (
                     <Image
